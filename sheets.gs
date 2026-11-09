@@ -7,14 +7,10 @@ const HEADERS = [
   '학번',
   '이름',
   'Timestamp',
-  'Answer 1',
-  'Answer 2',
-  'Answer 3'
+  'Answer 1'
 ];
 const ANSWER_KEYS = [
-  'writtenAnswer1',
-  'writtenAnswer2',
-  'writtenAnswer3'
+  'writtenAnswer1'
 ];
 const USERS_SHEET_NAME = 'Users';
 const USER_HEADERS = ['학번', '이름', '비밀번호', '활성화', '초기화 여부'];
