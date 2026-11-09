@@ -144,8 +144,8 @@
         }
 
         .question-title {
-            margin: 0 0 8px;
-            font-size: 18px;
+            margin: 0 0 10px;
+            font-size: 24px;
             font-weight: bold;
         }
 
@@ -158,9 +158,10 @@
 
         .question-text {
             display: block;
-            margin: 0 0 12px;
+            margin: 0 0 14px;
+            font-size: 20px;
             font-weight: normal;
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         .question-content {
@@ -498,14 +499,16 @@
 
         .answer-box textarea {
             width: 100%;
-            min-height: 320px;
-            padding: 12px 12px 30px;
+            min-height: 900px;
+            padding: 14px 14px 34px;
             box-sizing: border-box;
             border: 1px solid rgba(100, 100, 100, 0.55);
             border-radius: 8px;
             background: var(--input-bg);
             color: var(--text-main);
             font: inherit;
+            font-size: 18px;
+            line-height: 1.7;
             resize: vertical;
         }
 
@@ -525,7 +528,7 @@
             right: 12px;
             bottom: 9px;
             color: #777;
-            font-size: 13px;
+            font-size: 15px;
             pointer-events: none;
         }
         
@@ -685,8 +688,8 @@
             <input type="hidden" id="form-respondent-name" name="respondentName">
             <input type="hidden" id="survey-action" name="action" value="submitSurvey">
             <input type="hidden" id="auth-token" name="authToken">
-            <input type="hidden" id="answer-max-length" name="answerMaxLength" value="1800">
-            <input type="hidden" id="answer-max-length-1" name="answerMaxLength1" value="1800">
+            <input type="hidden" id="answer-max-length" name="answerMaxLength" value="8000">
+            <input type="hidden" id="answer-max-length-1" name="answerMaxLength1" value="8000">
             <input type="hidden" id="answer-copy-flag-1" name="answerCopy1" value="false">
 
             <div class="respondent-summary">
@@ -826,8 +829,8 @@
                         <label class="question-text" for="written-answer-1" data-question-index="0">질문 불러오는 중...</label>
                     </div>
                     <div class="answer-box">
-                        <textarea id="written-answer-1" name="writtenAnswer1" placeholder="답변을 입력해 주세요." maxlength="1800"></textarea>
-                        <span class="character-count" aria-live="polite">0 / 1800자</span>
+                        <textarea id="written-answer-1" name="writtenAnswer1" placeholder="답변을 입력해 주세요." maxlength="8000"></textarea>
+                        <span class="character-count" aria-live="polite">0 / 8000자</span>
                     </div>
                 </div>
             </div>

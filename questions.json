@@ -4,11 +4,11 @@
   "title": "PA2: RNN, LSTM, Transformer Backbone Comparison",
   "questions": [
     {
-      "id": "Q1",
+      "id": "Q",
       "title": "Backbone comparison: RNN vs. LSTM vs. Transformer",
       "points": 50,
-      "maxCharacters": 1800,
-      "prompt": "RNN, LSTM, Transformer 세 가지 백본을 정량적 지표와 정성적 지표를 활용하여 비교하고, 이를 근거로 각 백본의 장단점을 서술하라. 단, 강의 자료에 제시된 비교 항목은 빠짐없이 모두 다루어야 한다."
+      "maxCharacters": 8000,
+      "prompt": "RNN, LSTM, Transformer 세 가지 백본을 정량적 지표와 정성적 지표를 활용하여 비교하고, 이를 근거로 각 모델의 장단점을 서술하라. (단, 강의 자료에 제시된 비교 항목은 빠짐없이 모두 다루어야 함)"
     }
   ],
   "login": {
