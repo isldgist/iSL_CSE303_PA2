@@ -119,6 +119,24 @@ function getAnswerDetails(target) {
     };
 }
 
+// 줄바꿈은 글자 수에 포함하지 않습니다.
+// 입력 제한(maxLength)도 줄바꿈 개수만큼 늘려 줄바꿈 때문에 입력이 막히지 않게 합니다.
+function refreshAnswerCharacterCount(textarea) {
+    if (!(Number(textarea.dataset.maxCharacters) > 0)) {
+        textarea.dataset.maxCharacters =
+            String(textarea.maxLength > 0 ? textarea.maxLength : 1000);
+    }
+    const characterLimit = Number(textarea.dataset.maxCharacters);
+    const lineBreakCount = (textarea.value.match(/\n/g) || []).length;
+    textarea.maxLength = characterLimit + lineBreakCount;
+
+    const characterCount = textarea.parentElement.querySelector('.character-count');
+    if (characterCount) {
+        characterCount.textContent =
+            `${textarea.value.length - lineBreakCount} / ${characterLimit}자`;
+    }
+}
+
 function recordIntegrityTamper(clipboardAction) {
     document.querySelectorAll('.answer-box textarea').forEach(function (textarea) {
         const answerDetails = getAnswerDetails(textarea);
@@ -210,7 +228,6 @@ document.addEventListener('input', function (event) {
 
 document.querySelectorAll('.answer-box').forEach(function (answerBox, index) {
     const writtenAnswer = answerBox.querySelector('textarea');
-    const characterCount = answerBox.querySelector('.character-count');
     answerIntegrityStates.set(writtenAnswer, { value: writtenAnswer.value });
 
     function blockClipboardAction(event) {
@@ -218,11 +235,7 @@ document.querySelectorAll('.answer-box').forEach(function (answerBox, index) {
     }
 
     writtenAnswer.addEventListener('input', function () {
-        const maxLength = writtenAnswer.maxLength > 0
-            ? writtenAnswer.maxLength
-            : 1000;
-        characterCount.textContent =
-            `${writtenAnswer.value.length} / ${maxLength}자`;
+        refreshAnswerCharacterCount(writtenAnswer);
     });
     ['cut', 'paste', 'drop', 'dragstart'].forEach(function (eventName) {
         writtenAnswer.addEventListener(eventName, function (event) {
@@ -262,9 +275,7 @@ function auditAnswerIntegrity() {
             'unobserved-value-change'
         );
 
-        const characterCount = textarea.parentElement.querySelector('.character-count');
-        const maxLength = textarea.maxLength > 0 ? textarea.maxLength : 1000;
-        characterCount.textContent = `${textarea.value.length} / ${maxLength}자`;
+        refreshAnswerCharacterCount(textarea);
     });
 }
 
@@ -296,5 +307,9 @@ exposeGuardedIntegrityFunction(
     syncAnswerIntegrityBaselines
 );
 exposeGuardedIntegrityFunction('auditAnswerIntegrity', auditAnswerIntegrity);
+exposeGuardedIntegrityFunction(
+    'refreshAnswerCharacterCount',
+    refreshAnswerCharacterCount
+);
 setInterval(auditAnswerIntegrity, 500);
 })();

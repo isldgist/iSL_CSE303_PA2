@@ -923,12 +923,16 @@
                     if (questionConfig.answerPlaceholder) {
                         textarea.placeholder = questionConfig.answerPlaceholder;
                     }
-                    textarea.maxLength = answerMaxLength;
+                    // 줄바꿈은 글자 수에 포함하지 않으므로 입력 제한을 줄바꿈 개수만큼 늘립니다.
+                    const lineBreakCount = (textarea.value.match(/\n/g) || []).length;
+                    textarea.dataset.maxCharacters = String(answerMaxLength);
+                    textarea.maxLength = answerMaxLength + lineBreakCount;
                     largestAnswerMaxLength = Math.max(largestAnswerMaxLength, answerMaxLength);
                     document.getElementById(`answer-max-length-${index + 1}`).value =
                         String(answerMaxLength);
                     const counter = textarea.parentElement.querySelector('.character-count');
-                    counter.textContent = `${textarea.value.length} / ${answerMaxLength}자`;
+                    counter.textContent =
+                        `${textarea.value.length - lineBreakCount} / ${answerMaxLength}자`;
                 });
                 document.getElementById('answer-max-length').value =
                     String(largestAnswerMaxLength);
@@ -1294,8 +1298,8 @@
         });
 
     </script>
-    <script type="text/javascript" src="form_runtime.js?v=pa2-integrity-5"></script>
-    <script type="text/javascript" src="link_gform.js?v=pa2-integrity-2"></script>
+    <script type="text/javascript" src="form_runtime.js?v=pa2-integrity-6"></script>
+    <script type="text/javascript" src="link_gform.js?v=pa2-integrity-3"></script>
 </body>
 
 </html>

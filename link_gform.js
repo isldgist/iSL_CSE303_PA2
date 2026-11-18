@@ -29,11 +29,8 @@ function formatSubmittedAt(value) {
 }
 
 function updateCharacterCounts() {
-  surveyForm.querySelectorAll('.answer-box').forEach(function (answerBox) {
-    const textarea = answerBox.querySelector('textarea');
-    const counter = answerBox.querySelector('.character-count');
-    const maxLength = textarea.maxLength > 0 ? textarea.maxLength : 1000;
-    counter.textContent = `${textarea.value.length} / ${maxLength}자`;
+  surveyForm.querySelectorAll('.answer-box textarea').forEach(function (textarea) {
+    window.refreshAnswerCharacterCount(textarea);
   });
 }
 
@@ -42,6 +39,22 @@ function updateCopyFlags(copyFlags) {
     flagInput.value = Array.isArray(copyFlags) && copyFlags[index]
       ? 'true'
       : 'false';
+  });
+}
+
+// 줄바꿈은 글자 수에 포함하지 않습니다. 폼 전송 시 브라우저가 줄바꿈을 CRLF(2자)로 바꾸므로,
+// 서버로 보내는 제한값을 "글자 수 제한 + 줄바꿈 개수 × 2"로 맞춥니다.
+function syncSubmittedMaxLengths() {
+  surveyForm.querySelectorAll('.answer-box textarea').forEach(function (textarea) {
+    const match = textarea.id.match(/^written-answer-(\d+)$/);
+    const maxLengthInput = match &&
+      document.getElementById(`answer-max-length-${match[1]}`);
+    const characterLimit = Number(textarea.dataset.maxCharacters);
+    if (!maxLengthInput || !(characterLimit > 0)) {
+      return;
+    }
+    const lineBreakCount = (textarea.value.match(/\n/g) || []).length;
+    maxLengthInput.value = String(characterLimit + lineBreakCount * 2);
   });
 }
 
@@ -120,6 +133,7 @@ async function sendSurveyRequest(action) {
     submitStatus.className = 'submit-status';
   }
 
+  syncSubmittedMaxLengths();
   HTMLFormElement.prototype.submit.call(surveyForm);
 
   clearTimeout(surveyRequestTimeoutId);
